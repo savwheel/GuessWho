@@ -13,7 +13,7 @@ function populate() {
 //this should get called in update users when we create it.
 function changeSizeDispaly() {
 	var windowSize = window.innerWidth;
-	if (windowSize <= 1000) {
+	if (windowSize <= 1650) {
 		$("#leaderBoard").css("width", "45%");
 		$("#chatDialog").css("width", "45%");
 	}
