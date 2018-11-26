@@ -55,7 +55,7 @@ function startThings() {
 			}
 		}
 	}
-
+	socket.emit("refresh");
 }
 
 $(startThings);

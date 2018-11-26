@@ -31,9 +31,20 @@ function showLeaderBoard(error, result){
 
 io.on("connection", function(socket) {
     console.log("A user connected");
+     //below will be used for socket stuff on server side
 
-    
-    //below will be used for socket stuff on server side
+    //refresh will be called in start it all to give an initial leaderboard
+    socket.on("refresh", function(){
+        db.collection("scores").find({}).toArray(function(err,docs){
+            if(err!=null){
+                console.log("Error... " + err);
+            }
+            else{
+                io.emit("updateScores", docs);
+            }
+        });
+    });
+   
 });
 
 server.listen(80, function() {
