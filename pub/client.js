@@ -1,6 +1,15 @@
 var socket = io();
 var loggedIn = false;
 
+socket.on("updateScores", function(scoreArray){
+	$("#leaderBoard").html("");
+
+	var score;
+	for(score of scoreArray){
+		$("#leaderBoard").append(score);
+	}
+});
+
 //This is the method that will populate the board when they first start the game
 //It just uses a blank photo right now but we can change it to pull from the database
 function populate() {

@@ -6,7 +6,7 @@ var db;
 
 var express = require("express");
 
-var server = express();
+var app = express();
 
 var http = require("http");
 
@@ -14,14 +14,25 @@ var server = http.Server(app);
 var socketio = require("socket.io");
 var io = socketio(server);
 
-server.use(express.static("./pub"));
-var bodyParser = require("body-parser");
-server.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static("./pub"));
+
+//function to show the leaderboard scores on the client side
+function showLeaderBoard(error, result){
+    db.collection("scores").find({}).toArray(function(err,docs){
+        if(err!=null){
+            console.log("Error... " + err);
+        }
+        else{
+            io.emit("updateScores", docs);
+        }
+    });
+}
 
 
 io.on("connection", function(socket) {
     console.log("A user connected");
 
+    
     //below will be used for socket stuff on server side
 });
 
