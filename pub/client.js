@@ -42,6 +42,13 @@ function startThings() {
 		socket.emit("addUser", $("#username"));
 		loggedIn = true;
 	});
+
+	//when they send a message to the chat, call back, clear msg
+	$("#chatButton").click(function(){
+		socket.emit("sendMsg", $("#message").val());
+		$("message").val("");
+	});
+	
 	changeSizeDispaly();
 	if(loggedIn){
 		$("#startScreen").show();

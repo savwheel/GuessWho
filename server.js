@@ -14,7 +14,12 @@ var server = http.Server(app);
 var socketio = require("socket.io");
 var io = socketio(server);
 
+var sanitize = require("sanitize-html");
+
 app.use(express.static("./pub"));
+
+var socketName = [];
+//TODO::Finish socketNames, Finish Chat
 
 //function to show the leaderboard scores on the client side
 function showLeaderBoard(error, result){
@@ -43,6 +48,12 @@ io.on("connection", function(socket) {
                 io.emit("updateScores", docs);
             }
         });
+    });
+
+    socket.on("sendChat", function(msgFromClient){
+        var d = new Date();
+
+        io.emit("sayChat", d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + " " + socketName[socket.id] + " >  " + sanitize(msgFromClient));
     });
    
 });
