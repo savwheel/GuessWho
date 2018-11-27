@@ -10,6 +10,10 @@ socket.on("updateScores", function(scoreArray){
 	}
 });
 
+socket.on("sayChat", function(chatData){
+	$("#chatWindow").append(chatData+"\n");
+});
+
 //This is the method that will populate the board when they first start the game
 //It just uses a blank photo right now but we can change it to pull from the database
 function populate() {
@@ -46,7 +50,8 @@ function startThings() {
 	//when they send a message to the chat, call back, clear msg
 	$("#chatButton").click(function(){
 		socket.emit("sendMsg", $("#message").val());
-		$("message").val("");
+		console.log($("#message").val());
+		$("#message").val("");
 	});
 	
 	changeSizeDispaly();
