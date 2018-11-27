@@ -22,7 +22,7 @@
     max-width: 100%;
 }
 
-#board, #gameScreen {
+#gameScreen {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -31,4 +31,23 @@
 td {
     border: 2px solid black;
     background-color: gray;
+}
+
+
+.standings{
+    float: right;
+}
+.player{
+    float: left;
+}
+.petImages{
+    width: 100%;
+    margin: 0 auto;
+}
+.col .mini-box{
+    padding: 5px;
+}
+
+#board{
+    height: 90vh;
 }

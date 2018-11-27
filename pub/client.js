@@ -2,10 +2,15 @@
 //It just uses a blank photo right now but we can change it to pull from the database
 function populate() {
 	var table = document.getElementById("board");
-	for(var i = 0; i < 4; i++) {
-		for(var j = 0; j < 6; j++) {
-			$(table.rows[i].cells[j]).append("<img src='img/blankPerson.jpg' alt='Photo of blank identity'>");
+	for(var i = 0; i < 6; i++) {
+		$(table).append('<div class="row" id ="row' + i + '">');
+		for(var j = 0; j < 4; j++) {
+			$("#row"+ i).append('<div class="col mini-box"><img class = "petImages" src="img/blankPerson.jpg" alt="Photo of blank identity"></div>');
+			if(j == 3)
+				$(table).append('</div>');
+			// $(table.rows[i].cells[j]).append("<img src='img/blankPerson.jpg' alt='Photo of blank identity'>");
 		}
+
 	}
 }
 
@@ -23,18 +28,19 @@ function changeSizeDispaly() {
 function startThings() {
 	$("#gameScreen").show();
 	var table = document.getElementById("board");
-	if (!$("#board td").html()) {
-		populate();
-	}
+	// if (!$("#board td").html()) {
+	// 	populate();
+	// }
+	populate();
 	changeSizeDispaly();
 	//This part doesn't work yet
-	for(var i = 0; i < 4; i++) {
-		for(var j = 0; j < 6; j++) {
-			table.rows[i].cells[j].onclick = function() {
-				$(table.rows[i].cells[j]).css("opacity", ".7");		//When they click a photo it resets the opacity so they can see its been eliminated
-			}
-		}
-	}
+	// for(var i = 0; i < 4; i++) {
+	// 	for(var j = 0; j < 6; j++) {
+	// 		table.rows[i].cells[j].onclick = function() {
+	// 			$(table.rows[i].cells[j]).css("opacity", ".7");		//When they click a photo it resets the opacity so they can see its been eliminated
+	// 		}
+	// 	}
+	//}
 
 }
 
