@@ -1,3 +1,22 @@
+class User {
+	constructor(username, socketID) {
+		this.username = username;
+		this.socketID = socketID;
+	}
+	getUsername() {
+		return this.username;
+	}
+	getID() {
+		return this.socketID;
+	}
+	setUsername(username) {
+		this.username = username;
+	}
+	setID(socketID) {
+		this.socketID = socketID;
+	}
+}
+
 var socket = io();
 var loggedIn = false;
 

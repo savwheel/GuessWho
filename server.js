@@ -1,3 +1,24 @@
+class Room {
+    constructor(name) {
+        this.name = name;
+        this.user1 = null;
+        this.user2 = null;
+        this.join = true;
+    } 
+    status() {
+        return this.join;
+    }
+    setUser1(User) {
+        this.user1 = user;
+    }
+    setUser2(User) {
+        this.user2 = user;
+    }
+    getUsers() {
+        return [this.user1, this.user2];
+    }
+}
+
 var mongodb = require("mongodb");
 var MongoClient = mongodb.MongoClient;
 var ObjectID = mongodb.ObjectID;
@@ -21,6 +42,8 @@ app.use(express.static("./pub"));
 var socketName = [];
 //TODO::Finish socketNames, Finish Chat
 
+var Rooms = [new Room("Room1"), new Room("Room2"), new Room("Room3"), new Room("Room4"), new Room("Room5")];
+
 //function to show the leaderboard scores on the client side
 function showLeaderBoard(error, result){
     db.collection("scores").find({}).toArray(function(err,docs){
@@ -32,7 +55,6 @@ function showLeaderBoard(error, result){
         }
     });
 }
-
 
 io.on("connection", function(socket) {
     console.log("A user connected");
