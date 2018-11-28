@@ -27,7 +27,6 @@ function populate() {
 			if(j == 5)
 				$(table).append('</div>');
 		}
-<<<<<<< HEAD
 
 	}
 
@@ -49,8 +48,6 @@ function changeSizeDispaly() {
 	if (windowSize <= (screenSize*.8)) {
 		$("#leaderBoard").css("width", "45%");
 		
-=======
->>>>>>> 25b93f4bebbc1f4c8aa7348e2da1037a8c996671
 	}
 }
 
@@ -59,12 +56,6 @@ function startThings() {
 	$("#startScreen").show();
 
 	var table = document.getElementById("board");
-<<<<<<< HEAD
-
-	changeSizeDispaly();
-
-=======
->>>>>>> 25b93f4bebbc1f4c8aa7348e2da1037a8c996671
 
 	$("#submit").click(function() {
 		if(typeof $("#username") !== null){
@@ -78,17 +69,8 @@ function startThings() {
 		}
 	});
 
-<<<<<<< HEAD
 
 
-=======
-	$("#thename").click(function() {
-		if($(this).css('opacity')==0.2){
-			$(this).css('opacity','1.0');
-		}
-		else $(this).css('opacity','0.2');
-	});
->>>>>>> 25b93f4bebbc1f4c8aa7348e2da1037a8c996671
 
 	//when they send a message to the chat, call back, clear msg
 	$("#chatButton").click(function(){
