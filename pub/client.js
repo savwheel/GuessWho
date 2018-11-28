@@ -49,8 +49,11 @@ function startThings() {
 	});
 
 	$(".join").click(function() {
-		socket.emit("moveUser", $(this).attr('id').val(), function(moveSuccessful) {
+		//console.log(this);
+		//console.log(this.id);
+		socket.emit("moveUser", this.id, function(moveSuccessful) {
 			if(moveSuccessful === true) {
+				console.log("Join successful")
 				$("#lobbyScreen").hide();
 				$("#gameScreen").show();
 				populate();

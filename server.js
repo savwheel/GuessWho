@@ -3,10 +3,6 @@ class Room {
         this.name = name;
         this.socketID1 = null;
         this.SocketID2 = null;
-        this.join = true;
-    } 
-    status() {
-        return this.join;
     }
     setUser1(User) {
         this.socketID1 = user;
@@ -81,6 +77,7 @@ io.on("connection", function(socket) {
             callbackFunctionClient(true);
         }else{
             Rooms[roomName].socketID1 = socket.id;
+            callbackFunctionClient(true);
         }
     });
    
