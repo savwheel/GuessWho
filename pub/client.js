@@ -48,15 +48,21 @@ function startThings() {
 		}
 	});
 
+	//when they click a join button in the lobby they attempt to join a room
 	$(".join").click(function() {
-		//console.log(this);
-		//console.log(this.id);
-		socket.emit("moveUser", this.id, function(moveSuccessful) {
+		var button = this;
+		socket.emit("moveUserToRoom", button.id, function(moveSuccessful) {
 			if(moveSuccessful === true) {
-				console.log("Join successful")
 				$("#lobbyScreen").hide();
 				$("#gameScreen").show();
 				populate();
+			}
+			else {
+				//Tell them the room is full if they try to join a full room
+				var parent = button.parentNode.id;
+				var node = document.createTextNode("This room is full. Come back later");
+				var elm = document.createElement("h3");
+				document.getElementById(parent).appendChild(elm.appendChild(node));
 			}
 		});
 	});

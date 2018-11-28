@@ -65,7 +65,7 @@ io.on("connection", function(socket) {
         io.emit("sayChat", d.getHours() + ":" + d.getMinutes() + " " + socketName[socket.id] + ": " + msgFromClient);
     });
 
-    socket.on("moveUser", function(roomName, callbackFunctionClient){
+    socket.on("moveUserToRoom", function(roomName, callbackFunctionClient){
         if(Rooms[roomName].socketID1 != null && Rooms[roomName].SocketID2 != null){//room is full
             console.log("Tried to join full room.");
             callbackFunctionClient(false);
