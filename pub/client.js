@@ -37,10 +37,13 @@ socket.on("sayChat", function(chatData){
 //It just uses a blank photo right now but we can change it to pull from the database
 function populate() {
 	var table = document.getElementById("board");
+
+	var thePlayer = document.getElementById("yourPlayer");
+	$(thePlayer).append('<div class="col mini-box"><img class = "petImages" src="img/blankPerson.jpg" alt="Photo of blank identity"></div>')
 	for(var i = 0; i < 6; i++) {
 		$(table).append('<div class="row" id ="row' + i + '">');
 		for(var j = 0; j < 4; j++) {
-			$("#row"+ i).append('<div class="col mini-box"><img class = "petImages" src="img/blankPerson.jpg" alt="Photo of blank identity"></div>');
+			$("#row"+ i).append('<div class="col mini-box boxes"><img class = "petImages" src="img/blankPerson.jpg" alt="Photo of blank identity"></div>');
 			if(j == 3)
 				$(table).append('</div>');
 			// $(table.rows[i].cells[j]).append("<img src='img/blankPerson.jpg' alt='Photo of blank identity'>");
@@ -77,15 +80,9 @@ function startThings() {
 	// 	}
 	//}
 
-<<<<<<< HEAD
 	// if (!$("#board td").html()) {
 	// 	populate();
 	// }
-=======
-	if (!$("#board td").html()) {
-		populate();
-	}
->>>>>>> d15bda06f3628b16811d28f31fbde0d0217de055
 	$("#submitName").click(function() {
 		socket.emit("addUser", $("#username"));
 		loggedIn = true;
