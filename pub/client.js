@@ -1,18 +1,4 @@
-class User {
-	constructor(username, socketID) {
-		this.username = username;
-		this.socketID = socketID;
-	}
-	setUsername(username) {
-		this.username = username;
-	}
-	setID(socketID) {
-		this.socketID = socketID;
-	}
-}
-
 var socket = io();
-var loggedIn = false;
 
 socket.on("updateScores", function(scoreArray){
 	$("#leaderBoard").html("");
@@ -58,33 +44,21 @@ function changeSizeDispaly() {
 }
 
 function startThings() {
-	if(!loggedIn) { $("#startScreen").show(); }
-	var table = document.getElementById("board");
-	// if (!$("#board td").html()) {
-	// 	populate();
-	// }
-	populate();
-	changeSizeDispaly();
-	//This part doesn't work yet
-	// for(var i = 0; i < 4; i++) {
-	// 	for(var j = 0; j < 6; j++) {
-	// 		table.rows[i].cells[j].onclick = function() {
-	// 			$(table.rows[i].cells[j]).css("opacity", ".7");		//When they click a photo it resets the opacity so they can see its been eliminated
-	// 		}
-	// 	}
-	//}
+	$("#gameScreen").hide();
+	$("#startScreen").show();
 
-<<<<<<< HEAD
-=======
-	// if (!$("#board td").html()) {
-	// 	populate();
-	// }
-	$("#submitName").click(function() {
-		socket.emit("addUser", $("#username"));
-		loggedIn = true;
+	var table = document.getElementById("board");
+
+	$("#submit").click(function() {
+		socket.emit("addUser", $("#username").val(), function(loginSuccessful) {
+			if(loginSuccessful === true) {
+				$("#startScreen").hide();
+				$("#gameScreen").show();
+				populate();
+			}
+		});
 	});
 
->>>>>>> e096cb088e689f7030974218edaf8d8a74311fcd
 	//when they send a message to the chat, call back, clear msg
 	$("#chatButton").click(function(){
 		socket.emit("sendMsg", $("#message").val());
@@ -92,20 +66,20 @@ function startThings() {
 		$("#message").val("");
 	});
 	
-	changeSizeDispaly();
-	if(loggedIn){
-		$("#startScreen").show();
-		$("#gameScreen").show();
-		//This part doesn't work yet
-		for(var i = 0; i < 4; i++) {
-			for(var j = 0; j < 6; j++) {
-				table.rows[i].cells[j].onclick = function() {
-					$(table.rows[i].cells[j]).css("opacity", ".7");		//When they click a photo it resets the opacity so they can see its been eliminated
-				}
-			}
-		}
-	}
-	socket.emit("refresh");
+	//changeSizeDispaly();
+	//if(loggedIn){
+	//	$("#startScreen").show();
+	//	$("#gameScreen").show();
+	//	//This part doesn't work yet
+	//	for(var i = 0; i < 4; i++) {
+	//		for(var j = 0; j < 6; j++) {
+	//			table.rows[i].cells[j].onclick = function() {
+	//				$(table.rows[i].cells[j]).css("opacity", ".7");		//When they click a photo it resets the opacity so they can see its been eliminated
+	//			}
+	//		}
+	//	}
+	//}
+	//socket.emit("refresh");
 }
 
 $(startThings);
