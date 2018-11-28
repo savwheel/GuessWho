@@ -47,10 +47,27 @@ var Rooms = [new Room("Room1"), new Room("Room2"), new Room("Room3"), new Room("
 
 io.on("connection", function(socket) {
     console.log("A user connected");
+
+    //TODO:Need to add name to username list
+    socket.on("addUser", function(username, callbackFunctionClient){
+        //if name already exists
+        for(i in socketName){
+            if(socketName[i]==username){
+                callbackFunctionClient(false);
+                return;
+            }
+        }
+        //
+        //else
+        socketName[socket.id] = username;
+        callbackFunctionClient(true);
+    });
      //below will be used for socket stuff on server side
+    var d = new Date();
+
 
     socket.on("sendMsg", function(msgFromClient){
-        io.emit("sayChat", msgFromClient);
+        io.emit("sayChat", d.getHours() + ":" + d.getMinutes() + "  " + msgFromClient);
     });
    
 });
