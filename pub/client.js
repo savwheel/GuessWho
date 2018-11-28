@@ -44,7 +44,6 @@ function changeSizeDispaly() {
 function startThings() {
 	if(!loggedIn) { $("#startScreen").show(); }
 	var table = document.getElementById("board");
-<<<<<<< HEAD
 	// if (!$("#board td").html()) {
 	// 	populate();
 	// }
@@ -59,7 +58,6 @@ function startThings() {
 	// 	}
 	//}
 
-=======
 	if (!$("#board td").html()) {
 		populate();
 	}
@@ -89,7 +87,6 @@ function startThings() {
 		}
 	}
 	socket.emit("refresh");
->>>>>>> 09044088972aca3b1a7356b054b0956e282324d1
 }
 
 $(startThings);
