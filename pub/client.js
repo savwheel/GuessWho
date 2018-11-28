@@ -13,7 +13,7 @@ socket.on("updateScores", function(scoreArray){
 socket.on("sayChat", function(chatData){
 	$("#chatWindow").append(chatData+"\n");
 });
-
+//sidjfpidsjf
 //This is the method that will populate the board when they first start the game
 //It just uses a blank photo right now but we can change it to pull from the database
 function populate() {
@@ -44,7 +44,6 @@ function changeSizeDispaly() {
 function startThings() {
 	if(!loggedIn) { $("#startScreen").show(); }
 	var table = document.getElementById("board");
-<<<<<<< HEAD
 	// if (!$("#board td").html()) {
 	// 	populate();
 	// }
@@ -59,10 +58,9 @@ function startThings() {
 	// 	}
 	//}
 
-=======
-	if (!$("#board td").html()) {
-		populate();
-	}
+	// if (!$("#board td").html()) {
+	// 	populate();
+	// }
 	$("#submitName").click(function() {
 		socket.emit("addUser", $("#username"));
 		loggedIn = true;
@@ -89,7 +87,6 @@ function startThings() {
 		}
 	}
 	socket.emit("refresh");
->>>>>>> 09044088972aca3b1a7356b054b0956e282324d1
 }
 
 $(startThings);
