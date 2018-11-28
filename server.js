@@ -4,6 +4,10 @@ class Room {
         this.socketID1 = null;
         this.socketID2 = null;
     }
+    getUsers() {
+        var users = [this.socketID1, this.socketID2];
+        return users;
+    }
 }
 
 var mongodb = require("mongodb");
@@ -53,8 +57,25 @@ io.on("connection", function(socket) {
     var d = new Date();
 
     socket.on("sendMsg", function(msgFromClient){
-        io.emit("sayChat", d.getHours() + ":" + d.getMinutes() + " " + socketName[socket.id] + ": " + msgFromClient);
+        var userRoom = findMyRoom(socket.id);
+        io.emit("sayChat", d.getHours() + ":" + d.getMinutes() + " " + socketName[socket.id] + ": " + msgFromClient, userRoom.getUsers());
     });
+
+    socket.on("getLobbyNames", function(){
+        var roomArray = [];
+        for (var i=0; i<5; i++){
+            var room = Rooms[i];
+            var tempArray = ["Available", "Available"];
+            if (room.socketID1 != null) {
+                tempArray[0] = socketName[room.socketID1];
+            }
+            if (room.socketID2 != null) {
+                tempArray[1] = socketName[room.socketID2];
+            }
+            roomArray[i] = tempArray;
+        }
+        io.emit("updateRooms", roomArray)
+    })
 
     socket.on("moveUserToRoom", function(roomName, callbackFunctionClient){
         if(Rooms[roomName].socketID1 != null && Rooms[roomName].socketID2 != null){//room is full
@@ -62,29 +83,51 @@ io.on("connection", function(socket) {
             callbackFunctionClient(false);
         }else if(Rooms[roomName].socketID1 != null){//room has one user already
             Rooms[roomName].socketID2 = socket.id;
+            var userRoom = findMyRoom(socket.id);
+            io.emit("sayChat", socketName[socket.id] + " has joined.", userRoom.getUsers());
+    
             callbackFunctionClient(true);
         }else if(Rooms[roomName].socketID1 == null && Rooms[roomName].socketID2 != null){//joining room 2nd user
             Rooms[roomName].socketID1 = socket.id;
+            var userRoom = findMyRoom(socket.id);
+            io.emit("sayChat", socketName[socket.id] + " has joined.", userRoom.getUsers());
             callbackFunctionClient(true);
         }else{
             Rooms[roomName].socketID1 = socket.id;
+            var userRoom = findMyRoom(socket.id);
+            io.emit("sayChat", socketName[socket.id] + " has joined.", userRoom.getUsers());
             callbackFunctionClient(true);
         }
     });
     socket.on("disconnect", function() {
         console.log("A user diconnected")
-        socketName[socket.id] = null;
-        for(var i=0; i < 5; i++) {
-            if (Rooms[i].socketID1 === socket.id) {
-                Rooms[i].socketID1 = null;
+        var userRoom = findMyRoom(socket.id);
+        if (userRoom != null) {
+            if (userRoom.socketID1 === socket.id) {
+                userRoom.socketID1 = null;
             }
-            if (Rooms[i].socketID2 === socket.id) {
-                Rooms[i].socketID2 = null;
+            if (userRoom.socketID2 === socket.id) {
+                userRoom.socketID2 = null;
             }
+            io.emit("sayChat", socketName[socket.id] + " has left.", userRoom.getUsers());
         }
+        
+        socketName[socket.id] = null;
+        
+        
+        
     });
    
 });
+
+function findMyRoom(socketID) {
+    for(var i=0; i < 5; i++) {
+        if (Rooms[i].socketID1 === socketID || Rooms[i].socketID2 === socketID) {
+            return Rooms[i]
+        }
+    }
+    return null;
+}
 
 
 server.listen(80, function() {

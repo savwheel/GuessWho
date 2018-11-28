@@ -8,8 +8,26 @@ socket.on("updateScores", function(scoreArray){
 	}
 });
 
-socket.on("sayChat", function(chatData){
-	$("#chatWindow").append(chatData+"\n");
+socket.on("sayChat", function(chatData, sockets){
+	if(sockets.includes(socket.id)){
+		$("#chatWindow").append(chatData+"\n");
+	}
+});
+
+socket.on("updateRooms", function(roomArray) {
+	console.log("updateRooms")
+	for (var i=0; i < 5; i++) {
+		var ol = "room"+(i+1)+"List";
+		console.log(ol);
+		var firstItem = document.createTextNode(roomArray[i][0]);
+		var secondItem = document.createTextNode(roomArray[i][1])
+		var elm1 = document.createElement("li");
+		var elm2 = document.createElement("li");
+		elm1.appendChild(firstItem);
+		elm2.appendChild(secondItem);
+		document.getElementById(ol).appendChild(elm1);
+		document.getElementById(ol).appendChild(elm2)
+	}
 });
 
 //This is the method that will populate the board when they first start the game
@@ -43,6 +61,8 @@ function startThings() {
 				if(loginSuccessful === true) {
 					$("#startScreen").hide();
 					$("#lobbyScreen").show();
+					console.log("calling: getLobbyNames");
+					socket.emit("getLobbyNames");
 				}
 			});
 		}
