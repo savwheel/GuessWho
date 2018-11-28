@@ -41,11 +41,20 @@ function startThings() {
 			socket.emit("addUser", $("#username").val(), function(loginSuccessful) {
 				if(loginSuccessful === true) {
 					$("#startScreen").hide();
-					$("#gameScreen").show();
-					populate();
+					$("#lobbyScreen").show();
 				}
 			});
 		}
+	});
+
+	$(".join").click(function() {
+		socket.emit("moveUser", $(this).attr('id').val(), function(moveSuccessful) {
+			if(moveSuccessful === true) {
+				$("#lobbyScreen").hide();
+				$("#gameScreen").show();
+				populate();
+			}
+		});
 	});
 
 	$("#thename").click(function() {
