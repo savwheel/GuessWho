@@ -1,17 +1,24 @@
-#chatDialog, #leaderBoard {
-    width: 20%;
+/* #chatDialog, #leaderBoard {
+    width: 50%;
     border: 2px solid black;
     max-height: 40%;
     background-color: gray;
+} */
+
+#chatDialog{
+    margin: 0 auto;
+    width: 75%;
 }
 
-#chatDialog {
+
+
+/* #chatDialog {
     float: left;
 }
 
 #leaderBoard {
     float: right;
-}
+} */
 
 #chatWindow {
     height: 95%;
@@ -41,14 +48,21 @@ td {
     float: left;
 }
 .petImages{
-    width: 100%;
+    /* width: 100%; */
+    width: 50%;
     margin: 0 auto;
 }
-.col .mini-box{
-    padding: 5px;
+.boxes{
+    padding: 5px;    
 }
 
 #board{
     height: 90vh;
 }
 /* hi */
+
+h1, h4{
+    text-align: center;
+}
+
+

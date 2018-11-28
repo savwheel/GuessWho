@@ -15,11 +15,16 @@
 	<script type="text/javascript" src="client.js"></script>
 </head>
 <body>
+<div id="gameScreen">
     <div class="container-fluid">
+        <h1>Guessssss who</h1>
+        <h4>How to play the game blah blah blah</h4>
         <div class="row">
-        <div class="col-sm-3 player">this is the playerrrr</div>
+        <div class="col-sm-2 player" id ="yourPlayer">
+            <h2>Your Player</h2>
+            this is the playerrrr</div>
 
-        <div class="col-sm-6" id ="board">
+        <div class="col-sm-8" id ="board">
 
                 <!-- <div class="row" id="board">
                         <div class="col">col</div>
@@ -39,31 +44,53 @@
                 
             </div>
 
-            <div class="col-sm-3 standings">this is the leaderboard</div>
+            <div class="col-sm-2 standings">
+                <h2>this is the leaderboard</h2>
+
+
+                    <div id="leaderBoard">
+                        <h1>Leader Board</h1>
+                    </div>
+
             </div>
+            </div>
+            <!-- chat box -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="chatDialog">
+                            <textarea id="chatWindow"></textarea> <br>
+                            <input id="message" type="text" autocomplete="nope"></input>
+                            <button type="button" id="chatButton">Answer</button>
+                        </div>
+
+                </div>
+
+                </div>
+
+
+
+
 
         </div>
 
-    <div id="startScreen">
+ 
 
     
-    <div id="gameScreen">
-        <div id="chatDialog">
-            <textarea id="chatWindow"></textarea> <br>
-            <input id="message" type="text" autocomplete="nope"></input>
-            <button type="button" id="chatButton">Answer</button>
-        </div>
-        <div id="leaderBoard"><h1>Leader Board</h1></div>
+    
+      
       
 
 
 
 
 
-        <div id="playerToGuess">
+        <!-- <div id="playerToGuess">
             <img src="img/blankPerson.jpg" alt="Photo of blank identity">
-        </div>
+        </div> -->
         
     </div>
+
+
+    <div id="startScreen">
 </body>
 </html>
