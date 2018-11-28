@@ -27,6 +27,7 @@ function populate() {
 			if(j == 5)
 				$(table).append('</div>');
 		}
+<<<<<<< HEAD
 
 	}
 
@@ -48,11 +49,14 @@ function changeSizeDispaly() {
 	if (windowSize <= (screenSize*.8)) {
 		$("#leaderBoard").css("width", "45%");
 		
+=======
+>>>>>>> d150077d224df7fab46c8bc91d9339f5162ed9f6
 	}
 }
 
 function startThings() {
 	$("#gameScreen").hide();
+	$("#lobbyScreen").hide();
 	$("#startScreen").show();
 
 	var table = document.getElementById("board");
@@ -62,15 +66,33 @@ function startThings() {
 			socket.emit("addUser", $("#username").val(), function(loginSuccessful) {
 				if(loginSuccessful === true) {
 					$("#startScreen").hide();
-					$("#gameScreen").show();
-					populate();
+					$("#lobbyScreen").show();
 				}
 			});
 		}
 	});
 
+<<<<<<< HEAD
 
 
+=======
+	$(".join").click(function() {
+		socket.emit("moveUser", $(this).attr('id').val(), function(moveSuccessful) {
+			if(moveSuccessful === true) {
+				$("#lobbyScreen").hide();
+				$("#gameScreen").show();
+				populate();
+			}
+		});
+	});
+
+	$("#thename").click(function() {
+		if($(this).css('opacity')==0.2){
+			$(this).css('opacity','1.0');
+		}
+		else $(this).css('opacity','0.2');
+	});
+>>>>>>> d150077d224df7fab46c8bc91d9339f5162ed9f6
 
 	//when they send a message to the chat, call back, clear msg
 	$("#chatButton").click(function(){
