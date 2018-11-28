@@ -1,21 +1,21 @@
 class Room {
     constructor(name) {
         this.name = name;
-        this.user1 = null;
-        this.user2 = null;
+        this.socketID1 = null;
+        this.SocketID2 = null;
         this.join = true;
     } 
     status() {
         return this.join;
     }
     setUser1(User) {
-        this.user1 = user;
+        this.socketID1 = user;
     }
     setUser2(User) {
-        this.user2 = user;
+        this.SocketID2 = user;
     }
     getUsers() {
-        return [this.user1, this.user2];
+        return [this.socketID1, this.SocketID2];
     }
 }
 
@@ -50,7 +50,7 @@ io.on("connection", function(socket) {
 
     //TODO:Need to add name to username list
     socket.on("addUser", function(username, callbackFunctionClient){
-        console.log(username);
+        //console.log(username);
         //if name already exists
         for(i in socketName){
             if(socketName[i]==username){
@@ -67,6 +67,21 @@ io.on("connection", function(socket) {
 
     socket.on("sendMsg", function(msgFromClient){
         io.emit("sayChat", d.getHours() + ":" + d.getMinutes() + " " + socketName[socket.id] + ": " + msgFromClient);
+    });
+
+    socket.on("moveUser", function(roomName, callbackFunctionClient){
+        if(Rooms[roomName].socketID1 != null && Rooms[roomName].SocketID2 != null){//room is full
+            console.log("Tried to join full room.");
+            callbackFunctionClient(false);
+        }else if(Rooms[roomName].socketID1 != null){//room has one user already
+            Rooms[roomName].SocketID2 = socket.id;
+            callbackFunctionClient(true);
+        }else if(Rooms[roomName].socketID1 == null && Rooms[roomName].SocketID2 != null){//joining room 2nd user
+            Rooms[roomName].socketID1 = socket.id;
+            callbackFunctionClient(true);
+        }else{
+            Rooms[roomName].socketID1 = socket.id;
+        }
     });
    
 });
