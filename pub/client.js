@@ -1,3 +1,22 @@
+class User {
+	constructor(username, socketID) {
+		this.username = username;
+		this.socketID = socketID;
+	}
+	getUsername() {
+		return this.username;
+	}
+	getID() {
+		return this.socketID;
+	}
+	setUsername(username) {
+		this.username = username;
+	}
+	setID(socketID) {
+		this.socketID = socketID;
+	}
+}
+
 var socket = io();
 var loggedIn = false;
 
@@ -58,9 +77,15 @@ function startThings() {
 	// 	}
 	//}
 
+<<<<<<< HEAD
 	// if (!$("#board td").html()) {
 	// 	populate();
 	// }
+=======
+	if (!$("#board td").html()) {
+		populate();
+	}
+>>>>>>> d15bda06f3628b16811d28f31fbde0d0217de055
 	$("#submitName").click(function() {
 		socket.emit("addUser", $("#username"));
 		loggedIn = true;
