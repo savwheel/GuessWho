@@ -29,14 +29,23 @@ socket.on("updateScores", function(scoreArray){
 	}
 });
 
+socket.on("sayChat", function(chatData){
+	$("#chatWindow").append(chatData+"\n");
+});
+
 //This is the method that will populate the board when they first start the game
 //It just uses a blank photo right now but we can change it to pull from the database
 function populate() {
 	var table = document.getElementById("board");
-	for(var i = 0; i < 4; i++) {
-		for(var j = 0; j < 6; j++) {
-			$(table.rows[i].cells[j]).append("<img src='img/blankPerson.jpg' alt='Photo of blank identity'>");
+	for(var i = 0; i < 6; i++) {
+		$(table).append('<div class="row" id ="row' + i + '">');
+		for(var j = 0; j < 4; j++) {
+			$("#row"+ i).append('<div class="col mini-box"><img class = "petImages" src="img/blankPerson.jpg" alt="Photo of blank identity"></div>');
+			if(j == 3)
+				$(table).append('</div>');
+			// $(table.rows[i].cells[j]).append("<img src='img/blankPerson.jpg' alt='Photo of blank identity'>");
 		}
+
 	}
 }
 
@@ -54,6 +63,22 @@ function changeSizeDispaly() {
 function startThings() {
 	if(!loggedIn) { $("#startScreen").show(); }
 	var table = document.getElementById("board");
+<<<<<<< HEAD
+	// if (!$("#board td").html()) {
+	// 	populate();
+	// }
+	populate();
+	changeSizeDispaly();
+	//This part doesn't work yet
+	// for(var i = 0; i < 4; i++) {
+	// 	for(var j = 0; j < 6; j++) {
+	// 		table.rows[i].cells[j].onclick = function() {
+	// 			$(table.rows[i].cells[j]).css("opacity", ".7");		//When they click a photo it resets the opacity so they can see its been eliminated
+	// 		}
+	// 	}
+	//}
+
+=======
 	if (!$("#board td").html()) {
 		populate();
 	}
@@ -65,7 +90,8 @@ function startThings() {
 	//when they send a message to the chat, call back, clear msg
 	$("#chatButton").click(function(){
 		socket.emit("sendMsg", $("#message").val());
-		$("message").val("");
+		console.log($("#message").val());
+		$("#message").val("");
 	});
 	
 	changeSizeDispaly();
@@ -82,6 +108,7 @@ function startThings() {
 		}
 	}
 	socket.emit("refresh");
+>>>>>>> 09044088972aca3b1a7356b054b0956e282324d1
 }
 
 $(startThings);
