@@ -1,24 +1,4 @@
-class User {
-	constructor(username, socketID) {
-		this.username = username;
-		this.socketID = socketID;
-	}
-	getUsername() {
-		return this.username;
-	}
-	getID() {
-		return this.socketID;
-	}
-	setUsername(username) {
-		this.username = username;
-	}
-	setID(socketID) {
-		this.socketID = socketID;
-	}
-}
-
 var socket = io();
-var loggedIn = false;
 
 socket.on("updateScores", function(scoreArray){
 	$("#leaderBoard").html("");
@@ -64,7 +44,9 @@ function changeSizeDispaly() {
 }
 
 function startThings() {
-	if(!loggedIn) { $("#startScreen").show(); }
+	$("#gameScreen").hide();
+	$("#startScreen").show();
+
 	var table = document.getElementById("board");
 	// if (!$("#board td").html()) {
 	// 	populate();
@@ -82,12 +64,14 @@ function startThings() {
 	// 	}
 	//}
 
-	// if (!$("#board td").html()) {
-	// 	populate();
-	// }
-	$("#submitName").click(function() {
-		socket.emit("addUser", $("#username"));
-		loggedIn = true;
+	$("#submit").click(function() {
+		socket.emit("addUser", $("#username").val(), function(loginSuccessful) {
+			if(loginSuccessful === true) {
+				$("#startScreen").hide();
+				$("#gameScreen").show();
+				populate();
+			}
+		});
 	});
 
 
@@ -106,20 +90,20 @@ function startThings() {
 		$("#message").val("");
 	});
 	
-	changeSizeDispaly();
-	if(loggedIn){
-		$("#startScreen").show();
-		$("#gameScreen").show();
-		//This part doesn't work yet
-		for(var i = 0; i < 4; i++) {
-			for(var j = 0; j < 6; j++) {
-				table.rows[i].cells[j].onclick = function() {
-					$(table.rows[i].cells[j]).css("opacity", ".7");		//When they click a photo it resets the opacity so they can see its been eliminated
-				}
-			}
-		}
-	}
-	socket.emit("refresh");
+	//changeSizeDispaly();
+	//if(loggedIn){
+	//	$("#startScreen").show();
+	//	$("#gameScreen").show();
+	//	//This part doesn't work yet
+	//	for(var i = 0; i < 4; i++) {
+	//		for(var j = 0; j < 6; j++) {
+	//			table.rows[i].cells[j].onclick = function() {
+	//				$(table.rows[i].cells[j]).css("opacity", ".7");		//When they click a photo it resets the opacity so they can see its been eliminated
+	//			}
+	//		}
+	//	}
+	//}
+	//socket.emit("refresh");
 }
 
 $(startThings);
