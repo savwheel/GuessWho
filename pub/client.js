@@ -32,6 +32,7 @@ function populate() {
 
 function startThings() {
 	$("#gameScreen").hide();
+	$("#lobbyScreen").hide();
 	$("#startScreen").show();
 
 	var table = document.getElementById("board");
