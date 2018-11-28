@@ -50,6 +50,7 @@ io.on("connection", function(socket) {
 
     //TODO:Need to add name to username list
     socket.on("addUser", function(username, callbackFunctionClient){
+        console.log(username);
         //if name already exists
         for(i in socketName){
             if(socketName[i]==username){
@@ -57,7 +58,6 @@ io.on("connection", function(socket) {
                 return;
             }
         }
-        //
         //else
         socketName[socket.id] = username;
         callbackFunctionClient(true);
@@ -65,9 +65,8 @@ io.on("connection", function(socket) {
      //below will be used for socket stuff on server side
     var d = new Date();
 
-
     socket.on("sendMsg", function(msgFromClient){
-        io.emit("sayChat", d.getHours() + ":" + d.getMinutes() + "  " + msgFromClient);
+        io.emit("sayChat", d.getHours() + ":" + d.getMinutes() + " " + socketName[socket.id] + ": " + msgFromClient);
     });
    
 });
