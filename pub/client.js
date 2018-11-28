@@ -27,30 +27,6 @@ function populate() {
 			if(j == 5)
 				$(table).append('</div>');
 		}
-<<<<<<< HEAD
-
-	}
-
-
-
-	$("#thename").click(function() {
-		if($(this).css('opacity')==0.2){
-			$(this).css('opacity','1.0');
-		}
-		else $(this).css('opacity','0.2');
-	});
-}
-
-//If the window is smaller than a certain size then the board moves down and the chat and leader board resize
-//this should get called in update users when we create it.
-function changeSizeDispaly() {
-	var windowSize = window.innerWidth;
-	var screenSize = screen.width;
-	if (windowSize <= (screenSize*.8)) {
-		$("#leaderBoard").css("width", "45%");
-		
-=======
->>>>>>> d150077d224df7fab46c8bc91d9339f5162ed9f6
 	}
 }
 
@@ -72,10 +48,6 @@ function startThings() {
 		}
 	});
 
-<<<<<<< HEAD
-
-
-=======
 	$(".join").click(function() {
 		socket.emit("moveUser", $(this).attr('id').val(), function(moveSuccessful) {
 			if(moveSuccessful === true) {
@@ -92,7 +64,6 @@ function startThings() {
 		}
 		else $(this).css('opacity','0.2');
 	});
->>>>>>> d150077d224df7fab46c8bc91d9339f5162ed9f6
 
 	//when they send a message to the chat, call back, clear msg
 	$("#chatButton").click(function(){
