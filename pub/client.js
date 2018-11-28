@@ -59,11 +59,8 @@ function startThings() {
 		console.log($("#message").val());
 		$("#message").val("");
 	});
-<<<<<<< HEAD
-=======
 	
 	
->>>>>>> 2875fd5404a51ba2d154e60bb5d98c95c7c0db0c
 }
 
 $(startThings);
