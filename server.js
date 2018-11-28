@@ -2,16 +2,7 @@ class Room {
     constructor(name) {
         this.name = name;
         this.socketID1 = null;
-        this.SocketID2 = null;
-    }
-    setUser1(User) {
-        this.socketID1 = user;
-    }
-    setUser2(User) {
-        this.SocketID2 = user;
-    }
-    getUsers() {
-        return [this.socketID1, this.SocketID2];
+        this.socketID2 = null;
     }
 }
 
@@ -66,13 +57,13 @@ io.on("connection", function(socket) {
     });
 
     socket.on("moveUserToRoom", function(roomName, callbackFunctionClient){
-        if(Rooms[roomName].socketID1 != null && Rooms[roomName].SocketID2 != null){//room is full
+        if(Rooms[roomName].socketID1 != null && Rooms[roomName].socketID2 != null){//room is full
             console.log("Tried to join full room.");
             callbackFunctionClient(false);
         }else if(Rooms[roomName].socketID1 != null){//room has one user already
-            Rooms[roomName].SocketID2 = socket.id;
+            Rooms[roomName].socketID2 = socket.id;
             callbackFunctionClient(true);
-        }else if(Rooms[roomName].socketID1 == null && Rooms[roomName].SocketID2 != null){//joining room 2nd user
+        }else if(Rooms[roomName].socketID1 == null && Rooms[roomName].socketID2 != null){//joining room 2nd user
             Rooms[roomName].socketID1 = socket.id;
             callbackFunctionClient(true);
         }else{
@@ -80,8 +71,21 @@ io.on("connection", function(socket) {
             callbackFunctionClient(true);
         }
     });
+    socket.on("disconnect", function() {
+        console.log("A user diconnected")
+        socketName[socket.id] = null;
+        for(var i=0; i < 5; i++) {
+            if (Rooms[i].socketID1 === socket.id) {
+                Rooms[i].socketID1 = null;
+            }
+            if (Rooms[i].socketID2 === socket.id) {
+                Rooms[i].socketID2 = null;
+            }
+        }
+    });
    
 });
+
 
 server.listen(80, function() {
     console.log("Server waiting on port 80 . . .")
