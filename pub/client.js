@@ -39,12 +39,12 @@ function populate() {
 	var table = document.getElementById("board");
 
 	var thePlayer = document.getElementById("yourPlayer");
-	$(thePlayer).append('<div class="col mini-box"><img class = "petImages" src="img/blankPerson.jpg" alt="Photo of blank identity"></div>')
-	for(var i = 0; i < 6; i++) {
+	$(thePlayer).append('<div class="col mini-box"><img id="playerImg" src="img/charlie.jpg" alt="Photo of blank identity"></div>')
+	for(var i = 0; i < 3; i++) {
 		$(table).append('<div class="row" id ="row' + i + '">');
-		for(var j = 0; j < 4; j++) {
-			$("#row"+ i).append('<div class="col mini-box boxes"><img class = "petImages" src="img/blankPerson.jpg" alt="Photo of blank identity"></div>');
-			if(j == 3)
+		for(var j = 0; j < 6; j++) {
+			$("#row"+ i).append('<img class="petImages" id="'+ "thename"+'"src="img/charlie.jpg" alt="Photo of blank identity">');
+			if(j == 5)
 				$(table).append('</div>');
 			// $(table.rows[i].cells[j]).append("<img src='img/blankPerson.jpg' alt='Photo of blank identity'>");
 		}
@@ -59,7 +59,7 @@ function changeSizeDispaly() {
 	var screenSize = screen.width;
 	if (windowSize <= (screenSize*.8)) {
 		$("#leaderBoard").css("width", "45%");
-		$("#chatDialog").css("width", "45%");
+		
 	}
 }
 
@@ -69,6 +69,8 @@ function startThings() {
 	// if (!$("#board td").html()) {
 	// 	populate();
 	// }
+
+
 	populate();
 	changeSizeDispaly();
 	//This part doesn't work yet
@@ -86,6 +88,15 @@ function startThings() {
 	$("#submitName").click(function() {
 		socket.emit("addUser", $("#username"));
 		loggedIn = true;
+	});
+
+
+
+	$("#thename").click(function() {
+		if($(this).css('opacity')==0.2){
+			$(this).css('opacity','1.0');
+		}
+		else $(this).css('opacity','0.2');
 	});
 
 	//when they send a message to the chat, call back, clear msg
