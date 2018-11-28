@@ -1,3 +1,19 @@
+var socket = io();
+var loggedIn = false;
+
+socket.on("updateScores", function(scoreArray){
+	$("#leaderBoard").html("");
+
+	var score;
+	for(score of scoreArray){
+		$("#leaderBoard").append(score);
+	}
+});
+
+socket.on("sayChat", function(chatData){
+	$("#chatWindow").append(chatData+"\n");
+});
+
 //This is the method that will populate the board when they first start the game
 //It just uses a blank photo right now but we can change it to pull from the database
 function populate() {
@@ -26,8 +42,9 @@ function changeSizeDispaly() {
 }
 
 function startThings() {
-	$("#gameScreen").show();
+	if(!loggedIn) { $("#startScreen").show(); }
 	var table = document.getElementById("board");
+<<<<<<< HEAD
 	// if (!$("#board td").html()) {
 	// 	populate();
 	// }
@@ -42,6 +59,37 @@ function startThings() {
 	// 	}
 	//}
 
+=======
+	if (!$("#board td").html()) {
+		populate();
+	}
+	$("#submitName").click(function() {
+		socket.emit("addUser", $("#username"));
+		loggedIn = true;
+	});
+
+	//when they send a message to the chat, call back, clear msg
+	$("#chatButton").click(function(){
+		socket.emit("sendMsg", $("#message").val());
+		console.log($("#message").val());
+		$("#message").val("");
+	});
+	
+	changeSizeDispaly();
+	if(loggedIn){
+		$("#startScreen").show();
+		$("#gameScreen").show();
+		//This part doesn't work yet
+		for(var i = 0; i < 4; i++) {
+			for(var j = 0; j < 6; j++) {
+				table.rows[i].cells[j].onclick = function() {
+					$(table.rows[i].cells[j]).css("opacity", ".7");		//When they click a photo it resets the opacity so they can see its been eliminated
+				}
+			}
+		}
+	}
+	socket.emit("refresh");
+>>>>>>> 09044088972aca3b1a7356b054b0956e282324d1
 }
 
 $(startThings);

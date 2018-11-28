@@ -33,6 +33,7 @@ td {
     background-color: gray;
 }
 
+<<<<<<< HEAD
 
 .standings{
     float: right;
@@ -51,3 +52,11 @@ td {
 #board{
     height: 90vh;
 }
+=======
+#startScreen {
+    margin: 50px;
+    padding: 30px;
+    border: 2px solid black;
+    text-align: center;
+}
+>>>>>>> 09044088972aca3b1a7356b054b0956e282324d1
