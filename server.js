@@ -47,6 +47,8 @@ var Rooms = [new Room("Room1"), new Room("Room2"), new Room("Room3"), new Room("
 io.on("connection", function(socket) {
     console.log("A user connected");
 
+    socket.emit("checkName");
+
     //TODO:Need to add name to username list
     socket.on("addUser", function(username, callbackFunctionClient){
         //console.log(username);
@@ -132,14 +134,9 @@ io.on("connection", function(socket) {
                 userRoom.socketID2 = null;
             }
             io.emit("sayChat", socketName[socket.id] + " has left.", userRoom.getUsers());
-        }
-        
+        }  
         socketName[socket.id] = null;
-        
-        
-        
     });
-   
 });
 
 function findMyRoom(socketID) {

@@ -1,5 +1,6 @@
 var socket = io();
 var secretName = null;
+var myUsername = null;
 
 socket.on("updateScores", function(scoreArray){
 	$("#leaderBoard").html("");
@@ -22,17 +23,27 @@ socket.on("checkSelf", function(name, sockets){
 	}
 });
 
+socket.on("checkName", function() {
+	if(myUsername != null) {
+		$("#gameScreen").hide();
+		$("#lobbyScreen").hide();
+		$("#startScreen").show();
+		myUsername = null;
+		secretName = null;
+	}
+});
+
 socket.on("sayChat", function(chatData, sockets){
 	if(sockets.includes(socket.id)){
 		$("#chatWindow").append(chatData+"\n");
 	}
+	
 });
 
 socket.on("updateRooms", function(roomArray) {
-	console.log("updateRooms")
 	for (var i=0; i < 5; i++) {
 		var ol = "room"+(i+1)+"List";
-		console.log(ol);
+		$("#room"+(i+1)+"List").html("");
 		var firstItem = document.createTextNode(roomArray[i][0]);
 		var secondItem = document.createTextNode(roomArray[i][1])
 		var elm1 = document.createElement("li");
@@ -81,13 +92,13 @@ function startThings() {
 	
 
 	$("#submit").click(function() {
-		if(typeof $("#username") !== null){
+		if(typeof $("#username") !== null || $("#username").val() !== ""){
 			socket.emit("addUser", $("#username").val(), function(loginSuccessful) {
 				if(loginSuccessful === true) {
 					$("#startScreen").hide();
 					$("#lobbyScreen").show();
-					console.log("calling: getLobbyNames");
-					secretName="Charlie";
+					myUsername = $("#username").val();
+					secretName = "Charlie";	//random generate
 					socket.emit("getLobbyNames");
 				}
 			});
@@ -111,12 +122,13 @@ function startThings() {
 				$("#lobbyScreen").hide();
 				$("#gameScreen").show();
 				populate();
+				socket.emit("getLobbyNames");
 			}
 			else {
 				//Tell them the room is full if they try to join a full room
 				var parent = button.parentNode.id;
-				var node = document.createTextNode("This room is full. Come back later");
 				var elm = document.createElement("h3");
+				var node = document.createTextNode(" This room is full. Come back later. ");
 				document.getElementById(parent).appendChild(elm.appendChild(node));
 			}
 		});
