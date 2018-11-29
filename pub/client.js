@@ -61,6 +61,15 @@ function populate() {
 				$(ourBoard).append('</div>');
 		}
 	}
+
+	$(".petImages").click(function() {
+		console.log("in pet images click");
+		if($(this).css('opacity')==0.2){
+			$(this).css('opacity','1.0');
+		}
+		else $(this).css('opacity','0.2');
+	});
+
 }
 
 function startThings() {

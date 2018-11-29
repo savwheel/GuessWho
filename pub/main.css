@@ -28,6 +28,10 @@
 #opponentGuess{
     margin: 0 auto;
 }
+#leaderBoard{
+    width: 95%;
+    height: 400px;
+}
 
 #message {
     max-width: 100%;
