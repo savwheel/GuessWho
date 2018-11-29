@@ -21,10 +21,21 @@
             <div class="row">
                 <div class="col-sm-3 player" id ="yourPlayer">
                     <hr>
-                    <div id="chatDialog">
-                        <textarea id="chatWindow"></textarea> <br>
-                        <input id="message" type="text" autocomplete="nope"></input>
-                        <button type="button" id="chatButton">Answer</button>
+                    <div class="row">
+                        <div id="chatDialog">
+                            <h4>Chat:</h4>
+                            <textarea id="chatWindow"></textarea> <br>
+                            <input id="message" type="text" autocomplete="nope"></input>
+                            <button type="button" id="chatButton">Answer</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div id="opponentGuess">
+                            <h4>Guess Who:</h4>
+                                <input id="theGuess" type="text" autocomplete="nope"></input>
+                                <button type="button" id="guessButton">Guess</button>
+                            </div>
                     </div>
                 </div>
 
@@ -41,8 +52,8 @@
             <!-- chat box -->
             <div class="row">
                 <div class="col-lg-12">
-                    <h4>How to play the frackin game</h4>
-                    <p>Do the thing and win, duh</p>
+                    <h4>How to play the game</h4>
+                    <p>Each player gets one yes or no question per turn and may only guess (to win the game) once per game. If a player successfully guesses their opponents hidden character then they win; if their guess is wrong then they lose.</p>
                     </div>
             </div>
             </div>   
