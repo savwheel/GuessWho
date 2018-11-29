@@ -10,6 +10,13 @@ class Room {
     }
 }
 
+//TODO::Win/lose is currently hardcoded to charlie on both players
+//need to change this through using MONGO
+//need to add animals to DB
+//Click needs to flip down
+//leave or play again
+//leaderboard
+
 var mongodb = require("mongodb");
 var MongoClient = mongodb.MongoClient;
 var ObjectID = mongodb.ObjectID;
@@ -30,6 +37,7 @@ app.use(express.static("./pub"));
 
 var socketName = [];
 //TODO::Finish socketNames, Finish Chat
+var secretNameList = ["Charlie", "Sasha"];
 
 var Rooms = [new Room("Room1"), new Room("Room2"), new Room("Room3"), new Room("Room4"), new Room("Room5")];
 
@@ -52,6 +60,18 @@ io.on("connection", function(socket) {
         //else
         socketName[socket.id] = username;
         callbackFunctionClient(true);
+    });
+
+    socket.on("guessing", function(guess){
+        var room = findMyRoom(socket.id);
+        console.log("Inside of guessing");
+        io.emit("checkSelf", guess, room.getUsers());
+    });
+
+    socket.on("lose", function(){
+        //leaderboard infromation on socket.id lose
+        //findmyroom on socket, loser then subtracts, winner adds
+        console.log("PLAYER: " + socketName[socket.id] + " lost." )
     });
      //below will be used for socket stuff on server side
     var d = new Date();
@@ -76,6 +96,8 @@ io.on("connection", function(socket) {
         }
         io.emit("updateRooms", roomArray)
     })
+
+   
 
     socket.on("moveUserToRoom", function(roomName, callbackFunctionClient){
         if(Rooms[roomName].socketID1 != null && Rooms[roomName].socketID2 != null){//room is full
