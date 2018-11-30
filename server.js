@@ -78,6 +78,7 @@ io.on("connection", function(socket) {
         });
     });
 
+    //TODO:ERROR CHECKING
     socket.on("lose", function(){
         //leaderboard infromation on socket.id lose
         //findmyroom on socket
@@ -88,19 +89,21 @@ io.on("connection", function(socket) {
         var newScore = db.collection("scores").find({name: socketName[socket.id]});
         //update score on loser
         newScore = newScore - 5;
-
-        db.collection("scores").update({name: socketName[socket.id]}, {$set: {score:newScore}});
+        console.log(socketName[socket.id]+ " : " + newScore);
+        db.collection("scores").updateOne({name: socketName[socket.id]}, {$set: {score:newScore}});
         //find winner in Db with socket
         if(userRoom.socketID1!=socket.id){
-            var newScore = db.collection("scores").find({name: socketName[socketID1]});
+            var newScore = db.collection("scores").find({name: socketName[userRoom.socketID1]});
             //update score on winner
             newScore = newScore + 5;
-            db.collection("scores").update({name: socketName[userRoom.socketID1]}, {$set: {score:newScore}});
+            console.log(socketName[userRoom.socketID1]+ " : " + newScore);
+            db.collection("scores").updateOne({name: socketName[userRoom.socketID1]}, {$set: {score:newScore}});
         }else if(userRoom.socketID2!=socket.id){
-            var newScore = db.collection("scores").find({name: socketName[socketID2]});
+            var newScore = db.collection("scores").find({name: socketName[userRoom.socketID2]});
             //update score on winner
             newScore = newScore + 5;
-            db.collection("scores").update({name: socketName[userRoom.socketID2]}, {$set: {score:newScore}});
+            console.log(socketName[userRoom.socketID2]+ " : " + newScore);
+            db.collection("scores").updateOne({name: socketName[userRoom.socketID2]}, {$set: {score:newScore}});
         }
         //emit to update leaderboard to both clients, when changing screens
         socket.emit("forLeaderBoard");
