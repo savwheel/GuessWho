@@ -33,7 +33,7 @@ var io = socketio(server);
 app.use(express.static("./pub"));
 
 var socketName = [];
-//TODO::Finish socketNames, Finish Chat
+//TODO::Finish socketNames, DISABLE GUESS BOX WHEN GAME FINISHED!!!!, append to leaderboard
 var secretNameList = ["Charlie", "Sasha"];
 
 var Rooms = [new Room("Room1"), new Room("Room2"), new Room("Room3"), new Room("Room4"), new Room("Room5")];
@@ -59,6 +59,8 @@ io.on("connection", function(socket) {
         }
         //else
         socketName[socket.id] = username;
+        //if already in database as a user, do nothing
+        //if not, insert username and set score to 0
         callbackFunctionClient(true);
     });
 
@@ -79,34 +81,52 @@ io.on("connection", function(socket) {
     });
 
     //TODO:ERROR CHECKING
+    //
     socket.on("lose", function(){
         //leaderboard infromation on socket.id lose
         //findmyroom on socket
         var userRoom = findMyRoom(socket.id);
-        userRoom.getUsers();
-        
         //find loser in DB with socket
-        var newScore = db.collection("scores").find({name: socketName[socket.id]});
-        //update score on loser
-        newScore = newScore - 5;
-        console.log(socketName[socket.id]+ " : " + newScore);
-        db.collection("scores").updateOne({name: socketName[socket.id]}, {$set: {score:newScore}});
-        //find winner in Db with socket
-        if(userRoom.socketID1!=socket.id){
-            var newScore = db.collection("scores").find({name: socketName[userRoom.socketID1]});
-            //update score on winner
-            newScore = newScore + 5;
-            console.log(socketName[userRoom.socketID1]+ " : " + newScore);
-            db.collection("scores").updateOne({name: socketName[userRoom.socketID1]}, {$set: {score:newScore}});
-        }else if(userRoom.socketID2!=socket.id){
-            var newScore = db.collection("scores").find({name: socketName[userRoom.socketID2]});
-            //update score on winner
-            newScore = newScore + 5;
-            console.log(socketName[userRoom.socketID2]+ " : " + newScore);
-            db.collection("scores").updateOne({name: socketName[userRoom.socketID2]}, {$set: {score:newScore}});
+        db.collection("scores").find({name:socketName[socket.id]}).toArray(function(err, doc){
+            if(err!=null){
+                console.log("ERROR ON DB FIND..." + err);
+            }else{
+                var i; 
+                for(i in doc){
+                    if(doc[0].score>0){
+                        db.collection("scores").updateOne({name:socketName[socket.id]},{$set:{score:doc[0].score-5}});
+                    }
+                }
+            }
+        });
+        //if the first socket is the loser
+        if(userRoom.socketID1==socket.id){
+            //update winner
+            var secondUser = userRoom.socketID2;
+            db.collection("scores").find({name:socketName[secondUser]}).toArray(function(err, doc){
+                if(err!=null){
+                    console.log("ERROR ON DB FIND..." + err);
+                }else{
+                    var i; 
+                    for(i in doc){
+                            db.collection("scores").updateOne({name:socketName[secondUser]},{$set:{score:doc[0].score+5}});
+                    }
+                }
+            });
+        }if(userRoom.socketID2==socket.id){
+            //update winner
+            var secondUser = userRoom.socketID1;
+            db.collection("scores").find({name:socketName[secondUser]}).toArray(function(err, doc){
+                if(err!=null){
+                    console.log("ERROR ON DB FIND..." + err);
+                }else{
+                    var i; 
+                    for(i in doc){
+                            db.collection("scores").updateOne({name:socketName[secondUser]},{$set:{score:doc[0].score+5}});
+                    }
+                }
+            });
         }
-        //emit to update leaderboard to both clients, when changing screens
-        socket.emit("forLeaderBoard");
         
         //used to change the behavior of the game screen on win/lose
         changeGameScreen(socket.id);
@@ -172,6 +192,8 @@ io.on("connection", function(socket) {
             callbackFunctionClient(true);
         }
     });
+
+
     socket.on("disconnect", function() {
         console.log("A user diconnected")
         var userRoom = findMyRoom(socket.id);

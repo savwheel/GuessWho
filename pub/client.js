@@ -137,6 +137,7 @@ function startThings() {
 					$("#lobbyScreen").show();
 					myUsername = $("#username").val();
 					secretName = "Charlie";	//random generate
+					
 					socket.emit("getLobbyNames");
 				}
 			});
