@@ -69,13 +69,13 @@ io.on("connection", function(socket) {
 
     //getLeaderboard will query the DB, and return an array of the scores
     socket.on("getLeaderboard", function(){
-        /*db.collection("scores").find({}).toArray(function(err, docs){
+        db.collection("scores").find({}).toArray(function(err, docs){
             if(err!=null){
                 console.log("Error: " + err);
             }else{
-                console.log(docs);
+                socket.emit("updateClientLeaderBoard",docs);
             }
-        });*/
+        });
     });
 
     socket.on("lose", function(){
@@ -191,6 +191,12 @@ function changeGameScreen(socketID) {
 }
 
 
-server.listen(80, function() {
-    console.log("Server waiting on port 80 . . .")
+client.connect(function(err) {
+	if (err != null) throw err;
+	else {
+		db = client.db("scores");
+		server.listen(80, function() {
+			console.log("Server with socket.io is ready.");
+		});
+	}
 });
