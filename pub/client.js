@@ -4,10 +4,15 @@ var myUsername = null;
 
 //need to change formatting and test once query is working.
 socket.on("updateClientLeaderBoard", function(scoreArray){
-	$("#leaderBoardScore").val("");
+	$("#leaderBoardScore").html("");
 	var s;
+	var num = 1;
 	for(s in scoreArray){
-		$("#leaderBoardScore").append(scoreArray[s].name+ ": " + scoreArray[s].score + "<br>");
+		$("#leaderBoardScore").append(num +". "+ scoreArray[s].name+ ": "+ scoreArray[s].score+"\n");
+
+		console.log(scoreArray[s].name);
+		// $("#leaderBoardScore").append(scoreArray[s].name+"\n");
+		num++;
 	}
 });
 
