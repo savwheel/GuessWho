@@ -81,19 +81,38 @@ io.on("connection", function(socket) {
     socket.on("lose", function(){
         //leaderboard infromation on socket.id lose
         //findmyroom on socket
+        var userRoom = findMyRoom(socket.id);
+        userRoom.getUsers();
+        
         //find loser in DB with socket
+        var newScore = db.collection("scores").find({name: socketName[socket.id]});
         //update score on loser
-        //find winner in Db with socket
-        //update score on winner
-        //emit to update leaderboard to both clients, when changing screens
+        newScore = newScore - 5;
 
+        db.collection("scores").update({name: socketName[socket.id]}, {$set: {score:newScore}});
+        //find winner in Db with socket
+        if(userRoom.socketID1!=socket.id){
+            var newScore = db.collection("scores").find({name: socketName[socketID1]});
+            //update score on winner
+            newScore = newScore + 5;
+            db.collection("scores").update({name: socketName[userRoom.socketID1]}, {$set: {score:newScore}});
+        }else if(userRoom.socketID2!=socket.id){
+            var newScore = db.collection("scores").find({name: socketName[socketID2]});
+            //update score on winner
+            newScore = newScore + 5;
+            db.collection("scores").update({name: socketName[userRoom.socketID2]}, {$set: {score:newScore}});
+        }
+        //emit to update leaderboard to both clients, when changing screens
+        socket.emit("forLeaderBoard");
+        
         //used to change the behavior of the game screen on win/lose
         changeGameScreen(socket.id);
         console.log("PLAYER: " + socketName[socket.id] + " lost." )
     });
-     //below will be used for socket stuff on server side
-    var d = new Date();
 
+
+     
+    var d = new Date();
     socket.on("sendMsg", function(msgFromClient){
         var userRoom = findMyRoom(socket.id);
         io.emit("sayChat", d.getHours() + ":" + d.getMinutes() + " " + socketName[socket.id] + ": " + msgFromClient, userRoom.getUsers());
