@@ -10,7 +10,10 @@
     width: 95%;
     height: 25%;
 }
-
+#leaderBoardScore{
+    width: 95%;
+    height: 400px;
+}
 
 
 /* #chatDialog {
