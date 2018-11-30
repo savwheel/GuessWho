@@ -2,7 +2,14 @@ var socket = io();
 var secretName = null;
 var myUsername = null;
 
-
+//need to change formatting and test once query is working.
+socket.on("updateClientLeaderBoard", function(scoreArray){
+	$("leaderBoardScore").val("");
+	var score;
+	for(score in scoreArray){
+		$("leaderBoardScore").append(score);
+	}
+});
 
 socket.on("checkSelf", function(name, sockets){
 	if(sockets.includes(socket.id)){
