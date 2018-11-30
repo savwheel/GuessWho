@@ -29,9 +29,10 @@ socket.on("checkName", function() {
 		$("#gameScreen").hide();
 		$("#lobbyScreen").hide();
 		$("#startScreen").show();
-		$("#leaderBoard").html("");
-		$("#board").html("");
-		$("#chatWindow").html("");
+		$("#leaderBoardScore").empty();
+		$("#board").empty();
+		$("#chatWindow").empty();
+		$("#playerImgDiv").empty();
 		myUsername = null;
 		secretName = null;
 	}
@@ -41,7 +42,6 @@ socket.on("sayChat", function(chatData, sockets){
 	if(sockets.includes(socket.id)){
 		$("#chatWindow").append(chatData+"\n");
 	}
-	
 });
 
 socket.on("updateRooms", function(roomArray) {
@@ -59,12 +59,28 @@ socket.on("updateRooms", function(roomArray) {
 	}
 });
 
+socket.on("winOrLose", function(sockets){
+	if(sockets.includes(socket.id)) {
+		$("#board").empty();
+		$("#gameTitle").empty();
+		var ourBoard = document.getElementById("board");
+		if(sockets[0]==socket.id) {
+			$(ourBoard).append('<h1>CONGRATULATIONS! YOU WON!</h1><br>');
+		}
+		if(sockets[1]==socket.id) {
+			$(ourBoard).append('<h1>OH NO! YOUR OPPONENT HAS GUESSED YOUR PLAYER CORRECTLY. BETTER LUCK NEXT TIME!</h1><br>');
+		}
+		$(ourBoard).append('<button type="button" id="playAgainButton">Play Again</button>');
+		$(ourBoard).append('<button type="button" id="returnToLobbyButton">Return To Lobby</button>');
+	}
+});
+
 //This is the method that will populate the board when they first start the game
 function populate() {
+	$("#board").empty()
 	var ourBoard = document.getElementById("board");
-
 	var thePlayer = document.getElementById("yourPlayer");
-	$(thePlayer).prepend('<div class="col mini-box"><img id="playerImg" src="img/charlie.jpg" alt="Photo of blank identity"></div>')
+	$(thePlayer).prepend('<div class="col mini-box" id="playerImgDiv"><img id="playerImg" src="img/charlie.jpg" alt="Photo of blank identity"></div>')
 	$(thePlayer).prepend("<h2>Your Character</h2>");
 	//client asks server for array of images to use in populate here
 	for(var i = 0; i < 3; i++) {
@@ -91,10 +107,7 @@ function startThings() {
 	$("#gameScreen").hide();
 	$("#lobbyScreen").hide();
 	$("#startScreen").show();
-
-	var table = document.getElementById("board");
 	
-
 	$("#submit").click(function() {
 		if(typeof $("#username") !== null || $("#username").val() !== ""){
 			socket.emit("addUser", $("#username").val(), function(loginSuccessful) {
@@ -116,7 +129,21 @@ function startThings() {
 		}
 	});
 
-	
+	$("#playAgainButton").click(function(){
+		console.log("play again button click");
+		secretName = "Charlie";	//random generate
+		populate();
+		socket.emit("getLeaderboard");
+	});
+
+	$("#returnToLobbyButton").click(function(){
+		console.log("return to lobby button click");
+		socket.emit("removeSelfFromRoom");
+		$("#startScreen").hide();
+		$("#gameScreen").hide();
+		$("#lobbyScreen").show();
+		socket.emit("getLobbyNames");
+	});
 
 	//when they click a join button in the lobby they attempt to join a room
 	$(".join").click(function() {
@@ -139,24 +166,12 @@ function startThings() {
 		});
 	});
 
-	$(".petImages").click(function() {
-		console.log("in pet images click");
-		if($(this).css('opacity')==0.2){
-			$(this).css('opacity','1.0');
-		}
-		else $(this).css('opacity','0.2');
-	});
-
 	//when they send a message to the chat, call back, clear msg
 	$("#chatButton").click(function(){
 		socket.emit("sendMsg", $("#message").val());
 		console.log($("#message").val());
 		$("#message").val("");
-	});
-
-	
-	
-	
+	});	
 }
 
 $(startThings);

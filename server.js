@@ -64,19 +64,18 @@ io.on("connection", function(socket) {
 
     socket.on("guessing", function(guess){
         var room = findMyRoom(socket.id);
-        console.log("Inside of guessing");
         io.emit("checkSelf", guess, room.getUsers());
     });
 
     //getLeaderboard will query the DB, and return an array of the scores
     socket.on("getLeaderboard", function(){
-        db.collection("scores").find({}).toArray(function(err, docs){
+        /*db.collection("scores").find({}).toArray(function(err, docs){
             if(err!=null){
                 console.log("Error: " + err);
             }else{
                 console.log(docs);
             }
-        });
+        });*/
     });
 
     socket.on("lose", function(){
@@ -87,6 +86,9 @@ io.on("connection", function(socket) {
         //find winner in Db with socket
         //update score on winner
         //emit to update leaderboard to both clients, when changing screens
+
+        //used to change the behavior of the game screen on win/lose
+        changeGameScreen(socket.id);
         console.log("PLAYER: " + socketName[socket.id] + " lost." )
     });
      //below will be used for socket stuff on server side
@@ -111,9 +113,20 @@ io.on("connection", function(socket) {
             roomArray[i] = tempArray;
         }
         io.emit("updateRooms", roomArray)
-    })
+    });
 
-   
+    socket.on("removeSelfFromRoom", function() {
+        var userRoom = findMyRoom(socket.id);
+        if (userRoom != null) {
+            if (userRoom.socketID1 === socket.id) {
+                userRoom.socketID1 = null;
+            }
+            if (userRoom.socketID2 === socket.id) {
+                userRoom.socketID2 = null;
+            }
+            io.emit("sayChat", socketName[socket.id] + " has left.", userRoom.getUsers());
+        } 
+    });
 
     socket.on("moveUserToRoom", function(roomName, callbackFunctionClient){
         if(Rooms[roomName].socketID1 != null && Rooms[roomName].socketID2 != null){//room is full
@@ -160,6 +173,21 @@ function findMyRoom(socketID) {
         }
     }
     return null;
+}
+
+function changeGameScreen(socketID) {
+    console.log("inside of changeGameScreen")
+    var room = findMyRoom(socketID);
+    var users = room.getUsers();
+    var sockets = [];
+    if(socketID == users[0]){
+        sockets[0] = users[1];
+        sockets[1] = users[0];
+    }
+    else{
+        sockets = users;
+    }
+    io.emit("winOrLose", sockets);
 }
 
 
