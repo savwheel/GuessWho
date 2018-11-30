@@ -69,7 +69,7 @@ io.on("connection", function(socket) {
 
     //getLeaderboard will query the DB, and return an array of the scores
     socket.on("getLeaderboard", function(){
-        db.collection("scores").find({}).toArray(function(err, docs){
+        db.collection("scores").find({},{projection:{'_id':0}}).toArray(function(err, docs){
             if(err!=null){
                 console.log("Error: " + err);
             }else{
