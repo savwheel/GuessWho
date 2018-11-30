@@ -48,6 +48,7 @@ io.on("connection", function(socket) {
     console.log("A user connected");
 
     socket.emit("checkName");
+    socket.emit("updateScores");
 
     //TODO:Need to add name to username list
     socket.on("addUser", function(username, callbackFunctionClient){
@@ -68,6 +69,17 @@ io.on("connection", function(socket) {
         var room = findMyRoom(socket.id);
         console.log("Inside of guessing");
         io.emit("checkSelf", guess, room.getUsers());
+    });
+
+    //getLeaderboard will query the DB, and return an array of the scores
+    socket.on("getLeaderboard", function(){
+        db.collection("scores").find({}).toArray(function(err, docs){
+            if(err!=null){
+                console.log("Error: " + err);
+            }else{
+                console.log(docs);
+            }
+        });
     });
 
     socket.on("lose", function(){

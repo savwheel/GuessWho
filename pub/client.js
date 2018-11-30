@@ -2,13 +2,7 @@ var socket = io();
 var secretName = null;
 var myUsername = null;
 
-socket.on("updateScores", function(scoreArray){
-	$("#leaderBoard").html("");
-	var score;
-	for(score of scoreArray){
-		$("#leaderBoard").append(score);
-	}
-});
+
 
 socket.on("checkSelf", function(name, sockets){
 	if(sockets.includes(socket.id)){
@@ -123,6 +117,7 @@ function startThings() {
 				$("#gameScreen").show();
 				populate();
 				socket.emit("getLobbyNames");
+				socket.emit("getLeaderboard");//updating leaderboard for the first time here
 			}
 			else {
 				//Tell them the room is full if they try to join a full room
