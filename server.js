@@ -12,9 +12,6 @@ class Room {
 
 //TODO::Win/lose is currently hardcoded to charlie on both players
 //need to change this through using MONGO
-//need to add animals to DB
-//Click needs to flip down
-//leave or play again
 //leaderboard
 
 var mongodb = require("mongodb");
@@ -84,7 +81,12 @@ io.on("connection", function(socket) {
 
     socket.on("lose", function(){
         //leaderboard infromation on socket.id lose
-        //findmyroom on socket, loser then subtracts, winner adds
+        //findmyroom on socket
+        //find loser in DB with socket
+        //update score on loser
+        //find winner in Db with socket
+        //update score on winner
+        //emit to update leaderboard to both clients, when changing screens
         console.log("PLAYER: " + socketName[socket.id] + " lost." )
     });
      //below will be used for socket stuff on server side
