@@ -76,16 +76,33 @@ socket.on("winOrLose", function(sockets){
 		}
 		$(ourBoard).append('<button type="button" id="playAgainButton">Play Again</button>');
 		$(ourBoard).append('<button type="button" id="returnToLobbyButton">Return To Lobby</button>');
+		document.getElementById("playAgainButton").addEventListener("click",function(){
+			secretName = "Charlie";	//random generate
+			populate();
+			socket.emit("getLeaderboard");
+		});
+		document.getElementById("returnToLobbyButton").addEventListener("click",function(){
+			socket.emit("removeSelfFromRoom");
+			$("#startScreen").hide();
+			$("#gameScreen").hide();
+			$("#lobbyScreen").show();
+			$("#chatWindow").empty();
+			$("#guess").empty();
+			socket.emit("getLobbyNames");
+		});
 	}
 });
 
 //This is the method that will populate the board when they first start the game
 function populate() {
-	$("#board").empty()
+	$("#board").empty();
+	$("#playerImgDiv").remove();
+	$("#characterTitle").remove();
+	$("#guess").val("");
 	var ourBoard = document.getElementById("board");
 	var thePlayer = document.getElementById("yourPlayer");
 	$(thePlayer).prepend('<div class="col mini-box" id="playerImgDiv"><img id="playerImg" src="img/charlie.jpg" alt="Photo of blank identity"></div>')
-	$(thePlayer).prepend("<h2>Your Character</h2>");
+	$(thePlayer).prepend('<h2 id="characterTitle">Your Character</h2>');
 	//client asks server for array of images to use in populate here
 	for(var i = 0; i < 3; i++) {
 		$(ourBoard).append('<div class="row" id ="row' + i + '">');
@@ -96,6 +113,7 @@ function populate() {
 				$(ourBoard).append('</div>');
 		}
 	}
+	
 
 	$(".petImages").click(function() {
 		console.log("in pet images click");
@@ -104,7 +122,6 @@ function populate() {
 		}
 		else $(this).css('opacity','0.2');
 	});
-
 }
 
 function startThings() {
@@ -128,25 +145,8 @@ function startThings() {
 
 	$("#guessButton").click(function(){
 		if(typeof $("#guess")!== null){
-			console.log("pushing guess");
 			socket.emit("guessing", $("#guess").val());
 		}
-	});
-
-	$("#playAgainButton").click(function(){
-		console.log("play again button click");
-		secretName = "Charlie";	//random generate
-		populate();
-		socket.emit("getLeaderboard");
-	});
-
-	$("#returnToLobbyButton").click(function(){
-		console.log("return to lobby button click");
-		socket.emit("removeSelfFromRoom");
-		$("#startScreen").hide();
-		$("#gameScreen").hide();
-		$("#lobbyScreen").show();
-		socket.emit("getLobbyNames");
 	});
 
 	//when they click a join button in the lobby they attempt to join a room
