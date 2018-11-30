@@ -60,6 +60,15 @@ io.on("connection", function(socket) {
         //else
         socketName[socket.id] = username;
         //if already in database as a user, do nothing
+        db.collection("scores").find({name:username}).toArray(function(err, docs){
+            if(err!=null){
+                console.log("Error: " + err);
+            }else{
+                if(docs[0]==undefined){
+                    db.collection("scores").insertOne({name:username, score:0});
+                }
+            }
+        });
         //if not, insert username and set score to 0
         callbackFunctionClient(true);
     });
