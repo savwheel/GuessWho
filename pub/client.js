@@ -7,7 +7,8 @@ socket.on("updateClientLeaderBoard", function(scoreArray){
 	$("leaderBoardScore").val("");
 	var score;
 	for(score in scoreArray){
-		$("leaderBoardScore").append(score);
+		console.log(scoreArray[score]);
+		$("leaderBoardScore").append(scoreArray[score]+"<br>");
 	}
 });
 
