@@ -22,6 +22,9 @@ socket.on("checkName", function() {
 		$("#gameScreen").hide();
 		$("#lobbyScreen").hide();
 		$("#startScreen").show();
+		$("#leaderBoard").html("");
+		$("#board").html("");
+		$("#chatWindow").html("");
 		myUsername = null;
 		secretName = null;
 	}
