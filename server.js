@@ -34,7 +34,26 @@ app.use(express.static("./pub"));
 
 var socketName = [];
 //TODO::Finish socketNames, DISABLE GUESS BOX WHEN GAME FINISHED!!!!, append to leaderboard
-var secretNameList = ["Charlie", "Sasha"];
+// var secretNameList = 
+// [	"bill",
+// 	"charlie",
+// 	"chrisss",
+// 	"curtis",
+// 	"delilah",
+// 	"fluffy",
+// 	"george",
+// 	"jim",
+// 	"lizzy",
+// 	"patrick",
+// 	"porky",
+// 	"princess",
+// 	"sasha",
+// 	"steve",
+// 	"stewart",
+// 	"sssydney",
+// 	"tesssa",
+// 	"woofer"
+// ];
 
 var Rooms = [new Room("Room1"), new Room("Room2"), new Room("Room3"), new Room("Room4"), new Room("Room5")];
 

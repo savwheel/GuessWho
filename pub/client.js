@@ -2,6 +2,32 @@ var socket = io();
 var secretName = null;
 var myUsername = null;
 
+
+var critters = [
+	"bill",
+	"charlie",
+	"chrisss",
+	"curtis",
+	"delilah",
+	"fluffy",
+	"george",
+	"jim",
+	"lizzy",
+	"patrick",
+	"porky",
+	"princess",
+	"sasha",
+	"steve",
+	"stewart",
+	"sssydney",
+	"tesssa",
+	"woofer"
+];
+
+
+
+
+
 //need to change formatting and test once query is working.
 socket.on("updateClientLeaderBoard", function(scoreArray){
 	$("#leaderBoardScore").html("");
@@ -10,7 +36,7 @@ socket.on("updateClientLeaderBoard", function(scoreArray){
 	for(s in scoreArray){
 		$("#leaderBoardScore").append(num +". "+ scoreArray[s].name+ ": "+ scoreArray[s].score+"\n");
 
-		console.log(scoreArray[s].name);
+	//	console.log(scoreArray[s].name);
 		// $("#leaderBoardScore").append(scoreArray[s].name+"\n");
 		num++;
 	}
@@ -82,7 +108,8 @@ socket.on("winOrLose", function(sockets){
 		$(ourBoard).append('<button type="button" id="playAgainButton">Play Again</button>');
 		$(ourBoard).append('<button type="button" id="returnToLobbyButton">Return To Lobby</button>');
 		document.getElementById("playAgainButton").addEventListener("click",function(){
-			secretName = "Charlie";	//random generate
+			secretName = null;
+			secretName = getSecretName();	//random generate
 			populate();
 			socket.emit("getLeaderboard");
 		});
@@ -106,16 +133,28 @@ function populate() {
 	$("#guess").val("");
 	var ourBoard = document.getElementById("board");
 	var thePlayer = document.getElementById("yourPlayer");
-	$(thePlayer).prepend('<div class="col mini-box" id="playerImgDiv"><img id="playerImg" src="img/charlie.jpg" alt="Photo of blank identity"></div>')
+
+	
+	//var randomPlayer = getSecretName();
+
+	$(thePlayer).prepend('<div class="col mini-box" id="playerImgDiv"><img id="playerImg" src="img/'+ secretName +'.jpg" alt="Photo of blank identity"></div>')
 	$(thePlayer).prepend('<h2 id="characterTitle">Your Character</h2>');
+
+	///var index = randomNoRepeats(critters); 
+	var chooser = randomNoRepeats(critters);
+	//var critterName = chooser();
+
+	//var critterName = critters[index];
 	//client asks server for array of images to use in populate here
 	for(var i = 0; i < 3; i++) {
 		$(ourBoard).append('<div class="row" id ="row' + i + '">');
 		for(var j = 0; j < 6; j++) {
+			
 			//go through the array given by the server to append images 
-			$("#row"+ i).append('<img class="petImages" id="'+ "thename"+'"src="img/charlie.jpg" alt="Photo of blank identity">');
+			$("#row"+ i).append('<img class="petImages" id="thename" src="img/'+ chooser() +'.jpg" alt="Photo of blank identity">');
 			if(j == 5)
 				$(ourBoard).append('</div>');
+		//	index = 0;
 		}
 	}
 	
@@ -129,6 +168,29 @@ function populate() {
 	});
 }
 
+
+function randomNoRepeats(array) {
+	var theArray = array.slice(0);
+	return function() {
+	  if (theArray.length < 1) { theArray = array.slice(0); }
+	  var index = Math.floor(Math.random() * theArray.length);
+	  var item = theArray[index];
+	  theArray.splice(index, 1);
+	  return item;
+	};
+  }
+
+  function getSecretName(){
+	var randomPlayer = randomNoRepeats(critters);
+	var theName = randomPlayer();
+	console.log("this is the name:" + theName);
+	return theName;
+
+  }
+
+
+
+
 function startThings() {
 	$("#gameScreen").hide();
 	$("#lobbyScreen").hide();
@@ -141,7 +203,7 @@ function startThings() {
 					$("#startScreen").hide();
 					$("#lobbyScreen").show();
 					myUsername = $("#username").val();
-					secretName = "Charlie";	//random generate
+					secretName = getSecretName();//random generate
 					
 					socket.emit("getLobbyNames");
 				}
