@@ -19,22 +19,22 @@
         <div class="container-fluid">
             <!-- <h1 id="gameTitle">Guess Who!</h1> -->
             <img class="logo" src="img/logo-01.png">
-            <div class="row">
+            <div class="row blue">
                 <div class="col-sm-3 player" id ="yourPlayer">
                     <hr>
                     <div class="row">
                         <div id="chatDialog">
-                            <h4>Chat:</h4>
-                            <textarea id="chatWindow"></textarea> <br>
-                            <input id="message" type="text" autocomplete="nope"></input>
+                            <h4 class="yellow">Chat:</h4>
+                            <textarea id="chatWindow" disabled></textarea> <br>
+                            <input id="message" type="text" autocomplete="nope">
                             <button type="button" id="chatButton">Answer</button>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div id="opponentGuess">
-                            <h4>Guess Who:</h4>
-                                <input id="guess" type="text" autocomplete="nope"></input>
+                            <h4 class="yellow">Guess Who:</h4>
+                                <input id="guess" type="text" autocomplete="nope">
                                 <button type="button" id="guessButton">Guess</button>
                             </div>
                     </div>
@@ -45,11 +45,11 @@
                 <div class="col-sm-6" id ="board"></div>
 
                 <!-- leader board -->
-                <div class="col-sm-3 standings">
+                <div class="col-sm-3">
                     <div id="leaderBoard">
-                        <h2>Leader Board</h2>
+                        <h2 class="yellow">Leader Board</h2>
 
-                        <textarea id="leaderBoardScore"></textarea> <br>
+                        <textarea id="leaderBoardScore" disabled></textarea> <br>
 
                     </div>
                 </div>
@@ -69,10 +69,16 @@
 
 
     <div id="startScreen">
-        <div id="login">
-            <h2>Please enter a username!</h2>
-            <input id="username" type="text" autocomplete="nope"></input>
-            <button type="button" id="submit">Submit</button>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 center">
+                <div id="login">
+                    <h2>Please enter a username!</h2>
+                    <input id="username" type="text" autocomplete="nope"></input>
+                    <button type="button" id="submit">Submit</button>
+                </div>
+                </div>
+            </div>
         </div>
     </div>
 <div class="container-fluid">
@@ -80,7 +86,7 @@
         <h1>Game Rooms</h1>
 
         <div class="row">
-            <div class="col">
+            <div class="col gameRooms">
                 <div id="room1">
                     <h2>Room 1</h2>
                     <ol id="room1List">
@@ -88,7 +94,7 @@
                     <button type="button" class="join" id="0">Join</button>
                 </div>
             </div>
-            <div class="col">
+            <div class="col gameRooms">
                 <div id="room2">
                     <h2>Room 2</h2>
                     <ol id="room2List">
@@ -96,7 +102,7 @@
                     <button type="button" class="join" id="1">Join</button>
                 </div>
             </div>
-            <div class="col">
+            <div class="col gameRooms">
                 <div id="room3">
                     <h2>Room 3</h2>
                     <ol id="room3List">
@@ -104,7 +110,7 @@
                     <button type="button" class="join" id="2">Join</button>
                 </div>
             </div>
-            <div class="col">
+            <div class="col gameRooms">
                 <div id="room4">
                     <h2>Room 4</h2>
                     <ol id="room4List">
@@ -112,7 +118,7 @@
                     <button type="button" class="join" id="3">Join</button>
                 </div>
             </div>
-            <div class="col">
+            <div class="col gameRooms">
                 <div id="room5">
                     <h2>Room 5</h2>
                     <ol id="room5List">

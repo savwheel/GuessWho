@@ -75,7 +75,10 @@ socket.on("checkName", function() {
 
 socket.on("sayChat", function(chatData, sockets){
 	if(sockets.includes(socket.id)){
+		var $textarea = $("#chatWindow");
+
 		$("#chatWindow").append(chatData+"\n");
+		$textarea.scrollTop($textarea[0].scrollHeight);
 	}
 });
 
@@ -103,7 +106,7 @@ socket.on("winOrLose", function(sockets){
 			$(ourBoard).append('<h1>CONGRATULATIONS! YOU WON!</h1><br>');
 		}
 		if(sockets[1]==socket.id) {
-			$(ourBoard).append('<h1>OH NO! YOUR OPPONENT HAS GUESSED YOUR PLAYER CORRECTLY. BETTER LUCK NEXT TIME!</h1><br>');
+			$(ourBoard).append('<h1>OH NO!</h1><br><h3> YOUR OPPONENT HAS GUESSED YOUR PLAYER CORRECTLY.</h3><br><h3>BETTER LUCK NEXT TIME!</h3><br>');
 		}
 		$(ourBoard).append('<button type="button" id="playAgainButton">Play Again</button>');
 		$(ourBoard).append('<button type="button" id="returnToLobbyButton">Return To Lobby</button>');
@@ -111,6 +114,7 @@ socket.on("winOrLose", function(sockets){
 			secretName = null;
 			secretName = getSecretName();	//random generate
 			populate();
+			$("#chatWindow").append("New Game");
 			socket.emit("getLeaderboard");
 		});
 		document.getElementById("returnToLobbyButton").addEventListener("click",function(){
@@ -138,7 +142,7 @@ function populate() {
 	//var randomPlayer = getSecretName();
 
 	$(thePlayer).prepend('<div class="col mini-box" id="playerImgDiv"><img id="playerImg" src="img/'+ secretName +'.jpg" alt="Photo of blank identity"></div>')
-	$(thePlayer).prepend('<h2 id="characterTitle">Your Character</h2>');
+	$(thePlayer).prepend('<h2 class="yellow" id="characterTitle">Your Character</h2>');
 
 	///var index = randomNoRepeats(critters); 
 	var chooser = randomNoRepeats(critters);

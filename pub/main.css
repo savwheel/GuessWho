@@ -5,13 +5,40 @@
     background-color: gray;
 } */
 
+.gameRooms{
+    text-align: center;
+    margin:5px;
+    box-shadow: 0.1px 1px 4px 0px rgba(0, 0, 0, 0.2);
+}
+.yellow{
+    color: #ffc435;
+}
+
+.blue{
+padding:10px;
+
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#2e3991+1,2562c4+100 */
+background: #2e3991; /* Old browsers */
+background: -moz-linear-gradient(-45deg, #2e3991 1%, #2562c4 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg, #2e3991 1%,#2562c4 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg, #2e3991 1%,#2562c4 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e3991', endColorstr='#2562c4',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+
+}
+#board{
+    align-self: center;
+}
+
 #chatDialog{
     margin: 0 auto;
     width: 95%;
     height: 25%;
+    margin-bottom: 2px;
 }
 #leaderBoardScore{
     width: 95%;
+    margin: 0 auto;
     height: 400px;
 }
 
@@ -25,7 +52,7 @@
 } */
 
 #chatWindow {
-    height: 95%;
+    height:10rem;
     width: 98%;
 }
 #opponentGuess{
@@ -34,6 +61,7 @@
 #leaderBoard{
     width: 95%;
     height: 400px;
+    margin: 0 auto;
 }
 
 #message {
@@ -51,10 +79,6 @@ td {
     background-color: gray;
 }
 
-
-.standings{
-    float: right;
-}
 .player{
     float: left;
 }
@@ -73,6 +97,10 @@ td {
     width:25%;
     padding: 5px;
 }
+.center{
+    margin: 0 auto;
+
+}
 
 /* hi */
 
@@ -81,8 +109,42 @@ h1, h2, h3, h4{
     font-family: 'Fredoka One', cursive;
 
 }
+hr{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-width: 3px;
+    background-color:red; 
+}
 
-
+#username{
+    width: 75%;
+}
 #playerImg{
     width: 30%;
+    border: white;
+    border-style: solid;
+    border-radius: 3px;
+    border-width: 5px;
+}
+textarea{
+    border-radius: 3px;
+    border-style: solid;
+    border: white;
+    background-color: white;
+    border-width: 1px;
+}
+input[type=text]{
+    border-radius: 3px;
+    border-style: solid;
+    border-color:red;
+    background-color: white;
+    border-width: 1px;
+}
+button{
+    border-radius: 3px;
+    border-style: solid;
+    border-color: red;
+    background-color: white;
+    border-width: 1px;
+
 }
