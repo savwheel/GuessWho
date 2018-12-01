@@ -114,7 +114,7 @@ socket.on("winOrLose", function(sockets){
 			secretName = null;
 			secretName = getSecretName();	//random generate
 			populate();
-			$("#chatWindow").append("New Game");
+			$("#chatWindow").append("New Game\n");
 			socket.emit("getLeaderboard");
 		});
 		document.getElementById("returnToLobbyButton").addEventListener("click",function(){
@@ -217,7 +217,8 @@ function startThings() {
 
 	$("#guessButton").click(function(){
 		if(typeof $("#guess")!== null){
-			socket.emit("guessing", $("#guess").val());
+			socket.emit("guessing", $("#guess").val().toLowerCase());
+
 		}
 	});
 
@@ -248,6 +249,13 @@ function startThings() {
 		console.log($("#message").val());
 		$("#message").val("");
 	});	
+
+	$("#message").keydown(function(event) {
+		if (event.which == 13) { //if they hit enter...
+			socket.emit("sendMsg", $("#message").val());
+			$("#message").val("");
+		}
+	});
 }
 
 $(startThings);
