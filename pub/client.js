@@ -36,8 +36,6 @@ socket.on("updateClientLeaderBoard", function(scoreArray){
 	for(s in scoreArray){
 		$("#leaderBoardScore").append(num +". "+ scoreArray[s].name+ ": "+ scoreArray[s].score+"\n");
 
-	//	console.log(scoreArray[s].name);
-		// $("#leaderBoardScore").append(scoreArray[s].name+"\n");
 		num++;
 	}
 });
@@ -171,17 +169,13 @@ function populate() {
 	var ourBoard = document.getElementById("board");
 	var thePlayer = document.getElementById("yourPlayer");
 
-	
-	//var randomPlayer = getSecretName();
 
 	$(thePlayer).prepend('<div class="col mini-box" id="playerImgDiv"><img id="playerImg" src="img/'+ secretName +'.jpg" alt="Photo of blank identity"></div>')
 	$(thePlayer).prepend('<h2 class="yellow" id="characterTitle">Your Character</h2>');
 
-	///var index = randomNoRepeats(critters); 
+ 
 	var chooser = randomNoRepeats(critters);
-	//var critterName = chooser();
 
-	//var critterName = critters[index];
 	//client asks server for array of images to use in populate here
 	for(var i = 0; i < 3; i++) {
 		$(ourBoard).append('<div class="row" id ="row' + i + '">');
@@ -191,7 +185,6 @@ function populate() {
 			$("#row"+ i).append('<img class="petImages" id="thename" src="img/'+ chooser() +'.jpg" alt="Photo of blank identity">');
 			if(j == 5)
 				$(ourBoard).append('</div>');
-		//	index = 0;
 		}
 	}
 	

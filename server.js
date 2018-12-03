@@ -33,27 +33,6 @@ var io = socketio(server);
 app.use(express.static("./pub"));
 
 var socketName = [];
-//TODO::Finish socketNames, DISABLE GUESS BOX WHEN GAME FINISHED!!!!, append to leaderboard
-// var secretNameList = 
-// [	"bill",
-// 	"charlie",
-// 	"chrisss",
-// 	"curtis",
-// 	"delilah",
-// 	"fluffy",
-// 	"george",
-// 	"jim",
-// 	"lizzy",
-// 	"patrick",
-// 	"porky",
-// 	"princess",
-// 	"sasha",
-// 	"steve",
-// 	"stewart",
-// 	"sssydney",
-// 	"tesssa",
-// 	"woofer"
-// ];
 
 var Rooms = [new Room("Room1"), new Room("Room2"), new Room("Room3"), new Room("Room4"), new Room("Room5")];
 
@@ -66,7 +45,6 @@ io.on("connection", function(socket) {
     socket.emit("checkName");
     socket.emit("updateScores");
 
-    //TODO:Need to add name to username list
     socket.on("addUser", function(username, callbackFunctionClient){
         //console.log(username);
         //if name already exists
