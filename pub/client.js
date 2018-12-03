@@ -118,7 +118,7 @@ socket.on("winOrLose", function(sockets){
 			if(socketThatRequested === sockets[0] || socketThatRequested === sockets[1]){
 				if(socketThatRequested !== socket.id){
 					$("#board").empty();
-					$(ourBoard).append('<br><h3> Your Opponenet wants to play again</h3>');
+					$(ourBoard).append('<br><h3> Your Opponent wants to play again</h3>');
 					$(ourBoard).append('<button type="button" id="playAgainButton">Play Again</button>');
 					$(ourBoard).append('<button type="button" id="returnToLobbyButton">Return To Lobby</button>');
 					document.getElementById("playAgainButton").addEventListener("click", function(){
