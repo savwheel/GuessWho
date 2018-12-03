@@ -46,15 +46,18 @@ socket.on("forLeaderBoard", function(){
 	socket.emit("getLeaderboard")
 });
 
-socket.on("checkSelf", function(name, sockets){
+socket.on("checkSelf", function(name, sockets, guesserId){
 	if(sockets.includes(socket.id)){
+		console.log(socket.name);
 		console.log(name);
 		console.log(secretName);
-		if(name===secretName){
-			console.log("inside of checkSelf, lose");
-			socket.emit("lose");
-		}else{
-			console.log("fail");
+		if(socket.id !== guesserId){
+			if(name===secretName){
+				console.log("inside of checkSelf, lose");
+				socket.emit("lose");
+			}else{
+				console.log("fail");
+			}
 		}
 	}
 });
@@ -110,11 +113,41 @@ socket.on("winOrLose", function(sockets){
 		}
 		$(ourBoard).append('<button type="button" id="playAgainButton">Play Again</button>');
 		$(ourBoard).append('<button type="button" id="returnToLobbyButton">Return To Lobby</button>');
-		document.getElementById("playAgainButton").addEventListener("click",function(){
+
+		socket.on("sayPlayAgain", function(socketThatRequested){
+			if(socketThatRequested === sockets[0] || socketThatRequested === sockets[1]){
+				if(socketThatRequested !== socket.id){
+					$("#board").empty();
+					$(ourBoard).append('<br><h3> Your Opponenet wants to play again</h3>');
+					$(ourBoard).append('<button type="button" id="playAgainButton">Play Again</button>');
+					$(ourBoard).append('<button type="button" id="returnToLobbyButton">Return To Lobby</button>');
+					document.getElementById("playAgainButton").addEventListener("click", function(){
+						secretName = null;
+						secretName = getSecretName();	//random generate
+						$("#board").empty();
+						populate();
+						$("#chatWindow").append("New Game"+ "\n");
+						socket.emit("getLeaderboard");
+					});
+					document.getElementById("returnToLobbyButton").addEventListener("click",function(){
+						socket.emit("removeSelfFromRoom");
+						$("#startScreen").hide();
+						$("#gameScreen").hide();
+						$("#lobbyScreen").show();
+						$("#chatWindow").empty();
+						$("#guess").empty();
+						socket.emit("getLobbyNames");
+					});
+				}
+			}
+		});
+		document.getElementById("playAgainButton").addEventListener("click", function(){
+			socket.emit("playAgain", socket.id);
 			secretName = null;
 			secretName = getSecretName();	//random generate
+			$("#board").empty();
 			populate();
-			$("#chatWindow").append("New Game\n");
+			$("#chatWindow").append("New Game"+ "\n");
 			socket.emit("getLeaderboard");
 		});
 		document.getElementById("returnToLobbyButton").addEventListener("click",function(){
@@ -217,7 +250,7 @@ function startThings() {
 
 	$("#guessButton").click(function(){
 		if(typeof $("#guess")!== null){
-			socket.emit("guessing", $("#guess").val().toLowerCase());
+			socket.emit("guessing", $("#guess").val().toLowerCase(), socket.id);
 
 		}
 	});

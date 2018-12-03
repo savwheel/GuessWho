@@ -92,9 +92,13 @@ io.on("connection", function(socket) {
         callbackFunctionClient(true);
     });
 
-    socket.on("guessing", function(guess){
-        var room = findMyRoom(socket.id);
-        io.emit("checkSelf", guess, room.getUsers());
+    socket.on("guessing", function(guess, guesserId){
+        var room = findMyRoom(guesserId);
+        io.emit("checkSelf", guess, room.getUsers(),guesserId);
+    });
+    socket.on("playAgain",function(socketId){
+        io.emit("sayPlayAgain", socketId);
+
     });
 
     //getLeaderboard will query the DB, and return an array of the scores
